@@ -1,0 +1,65 @@
+#include <algorithm>
+#include <fstream>
+using namespace std;
+ifstream cin("sortare_divizori.in");
+ofstream cout("sortare_divizori.out");
+
+int d=3, n, s=0, mocan2, k=0;
+struct element
+{
+    int nrd,nrv;
+} v[1001];
+bool cmp (element mocan3,element mocan4)
+{
+    if(mocan3.nrd==mocan4.nrd)
+        return mocan3.nrv<mocan4.nrv;
+    return mocan3.nrd>mocan4.nrd;
+}
+int divizori(int x)
+{
+    int s=0, mocan2=1;
+    d=3;
+    while(x%2==0)
+    {
+        x=x/2;
+        s++;
+    }
+    mocan2*=(s+1);
+
+    while(d*d<=x && x!=1)
+    {
+        s=0;
+        while(x%d==0)
+        {
+            x=x/d;
+            s++;
+        }
+        s++;
+        mocan2*=s;
+        d=d+2;
+    }
+    if(x!=1)
+    {
+        mocan2=mocan2*2;
+    }
+    return mocan2;
+
+
+}
+
+int main()
+{
+    cin>>n;
+    for(int i=1; i<=n; i++)
+    {
+        cin>>v[i].nrv;
+        v[i].nrd=divizori(v[i].nrv);
+    }
+    sort(v+1,v+n+1, cmp);
+    for(int i=1; i<=n; i++)
+    {
+        cout<<v[i].nrv<<" ";
+    }
+
+    return 0;
+}
